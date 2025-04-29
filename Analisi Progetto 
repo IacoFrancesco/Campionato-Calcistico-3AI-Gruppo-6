@@ -1,0 +1,113 @@
+Ecco un’analisi completa del Progetto 6 – Campionato Calcistico basato sull'immagine che hai fornito:
+
+
+---
+
+Obiettivi del progetto
+
+Il progetto ha lo scopo di simulare un campionato calcistico, con le seguenti funzionalità principali:
+
+1. Gestione delle squadre
+
+Ogni squadra deve avere i seguenti attributi:
+
+Nome
+
+Punti
+
+Gol Fatti (GF)
+
+Gol Subiti (GS)
+
+
+
+
+2. Inserimento dei risultati delle partite
+
+Gli utenti devono poter inserire i risultati di una o più partite.
+
+I dati inseriti devono aggiornare automaticamente la classifica, modificando punti, GF e GS delle squadre coinvolte.
+
+
+
+3. Ordinamento della classifica
+
+Le squadre devono essere ordinate:
+
+Prima per punti.
+
+In caso di parità, per differenza reti (GF - GS).
+
+
+
+
+
+
+---
+
+Estensioni facoltative
+
+Sono funzionalità aggiuntive che arricchiscono il progetto:
+
+Salvataggio e caricamento dei dati da un file
+
+Permette di conservare lo stato del campionato tra sessioni.
+
+Può essere implementato tramite file testuali (CSV, JSON, ecc.).
+
+
+Gestione del calendario completo delle partite
+
+Serve per organizzare in anticipo le partite tra le squadre (match schedule).
+
+Potrebbe includere date, giornate e magari orari.
+
+
+
+
+---
+
+Consegna minima richiesta
+
+Numero minimo di squadre: 6
+
+Numero minimo di giornate: 5
+
+
+Ciò significa che dovrai gestire almeno 15 partite (poiché ogni giornata contiene più match, tipicamente 3 in un campionato a 6 squadre).
+
+
+---
+
+Analisi tecnica consigliata
+
+
+Strutture dati: liste o dizionari per gestire le squadre e i risultati.
+
+Classi:
+
+Squadra con attributi come nome, punti, gf, gs.
+
+Eventualmente Partita e Campionato per organizzare meglio il codice.
+
+
+
+
+---
+
+Suggerimenti per l’implementazione
+
+Inizia con la classe Squadra.
+
+Crea funzioni per inserire risultati, aggiornare punteggi e ordinare la classifica.
+
+Aggiungi una funzione per stampare la classifica in formato tabellare.
+
+Solo dopo, lavora sulle estensioni.
+
+
+
+---
+
+Vuoi un esempio di struttura del codice o hai bisogno di supporto su una parte specifica?
+
