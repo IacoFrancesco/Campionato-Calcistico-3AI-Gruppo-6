@@ -1,11 +1,6 @@
-Ecco un’analisi completa del Progetto 6 – Campionato Calcistico basato sull'immagine che hai fornito:
 
-
----
 
 Obiettivi del progetto
-
-Il progetto ha lo scopo di simulare un campionato calcistico, con le seguenti funzionalità principali:
 
 1. Gestione delle squadre
 
@@ -50,6 +45,7 @@ Estensioni facoltative
 Sono funzionalità aggiuntive che arricchiscono il progetto:
 
 Salvataggio e caricamento dei dati da un file
+(vedere come prendere i dati da un file )
 
 Permette di conservare lo stato del campionato tra sessioni.
 
