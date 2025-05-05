@@ -1,6 +1,54 @@
 #include <iostream>
+#include <cstdlib>  // Per rand() e srand()
+#include <ctime>    // Per time()
+using namespace std;
+
+struct Squadra {
+    string nome;
+    int punti = 0;
+    int GF = 0; // Gol fatti
+    int GS = 0; // Gol subiti
+};
+
+void mescolaSquadre(int arr[], int n) {
+    // Algoritmo di Fisher-Yates per mescolare l'array degli indici
+    for (int i = n - 1; i > 0; i--) {
+        int j = rand() % (i + 1);  // Genera un indice casuale
+        // Scambia gli elementi
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
 
 int main() {
-    std::cout << "Ciao, mondo!" << std::endl;
-    return 0;
+    Squadra arr[6];
+
+    // Inserimento dei nomi delle squadre
+    for (int i = 0; i < 6; i++) {
+        cout << "Inserisci il nome della " << i + 1 << "° Squadra: ";
+        cin >> arr[i].nome;
+    }
+
+    // Inizializza l'array degli indici delle squadre
+    int squadreIndice[6] = {0, 1, 2, 3, 4, 5};
+
+    // Imposta il generatore di numeri casuali
+    srand(time(0));  // Inizializza il seme per il generatore di numeri casuali
+
+    // Girone di 5 giornate
+    for (int j = 1; j <= 5; j++) { // 5 giornate, non 6
+        cout << "GIORNATA " << j << ":";
+
+        // Mescola le squadre per questa giornata
+        mescolaSquadre(squadreIndice, 6);
+
+        // Ogni partita si gioca tra le squadre randomizzate
+        for (int y = 0; y < 6; y += 2) {
+            int gol1, gol2;
+
+            // Mostra le squadre in campo
+            cout << arr[squadreIndice[y]].nome << " vs " << arr[squadreIndice[y + 1]].nome << endl;
+
+            cout<<
 }
