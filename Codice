@@ -1,54 +1,167 @@
+// Progetto n.6 Campionato Calcistico Iacoangeli, Howladar, Orti.
 #include <iostream>
 #include <cstdlib>  // Per rand() e srand()
 #include <ctime>    // Per time()
 using namespace std;
 
 struct Squadra {
-    string nome;
-    int punti = 0;
-    int GF = 0; // Gol fatti
-    int GS = 0; // Gol subiti
+	string nome;
+	int punti = 0;
+	int GF = 0; // Gol fatti
+	int GS = 0; // Gol subiti
 };
 
-void mescolaSquadre(int arr[], int n) {
-    // Algoritmo di Fisher-Yates per mescolare l'array degli indici
-    for (int i = n - 1; i > 0; i--) {
-        int j = rand() % (i + 1);  // Genera un indice casuale
-        // Scambia gli elementi
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+// dichiarazioni funzioni:
+void mescola_squadre(Squadra arr[], int n);
+
+void selection_sort(Squadra arr[],int dim);
+
+void array_ordinato(Squadra arr[],int dim);
+
+void gestione_sqadre(int dim);
+
+void gestione_giornate(int dim);
+
+void gestione_gol(int dim);
+
+int main() {
+	int n_squadre;
+	int n_giornate;
+	
+	cout<<"inserisci numero squadre: ";
+	cin>>n_squadre;
+	
+	gestione_sqadre(n_squadre);
+	
+	cout<<"inserisci il numero delle giornate: ";
+	cin>>n_giornate;
+	
+	gestione_giornate(n_giornate);
+	
+	cout<<endl;
+	
+	Squadra arr[n_squadre];
+
+
+	for (int i = 0; i < n_squadre; i++) {
+			cout << "Inserisci il nome della " << i + 1 << "° Squadra: ";
+			cin >> arr[i].nome;
+	}
+
+	int a = sizeof(arr) / sizeof(arr[0]);
+
+	srand(time(0));
+	
+	mescola_squadre(arr, n_squadre);
+
+	for (int j = 1; j <= n_giornate; j++) {
+	    mescola_squadre(arr, n_squadre);
+	    
+	    cout<<endl;
+	    
+		cout << "GIORNATA " << j << ": "<<endl<<endl;
+		for (int y = 0; y < n_squadre; y += 2) {
+			int gol1, gol2;
+			cout << arr[y].nome << " vs " << arr[y+1].nome << endl;
+			
+			cout<<"Gol della squadra "<<arr[y].nome<<": ";
+			cin>>gol1;
+			
+			gestione_gol(gol1);
+			
+			cout<<"Gol della squadra "<<arr[y+1].nome<<": ";
+			cin>>gol2;
+			
+			gestione_gol(gol2);
+			
+			cout<<endl;
+			
+			arr[y].GF+=gol1;
+            arr[y].GS+=gol2;
+            arr[y+1].GF+=gol2;
+            arr[y+1].GS+=gol1;
+			
+			if(gol1>gol2){
+			    arr[y].punti+=3;
+			}
+			else if(gol1<gol2){
+                arr[y+1].punti+=3;
+			}
+			else{
+			    arr[y].punti+=1;
+			    arr[y+1].punti+=1;
+			}
+		}
+	}
+	
+	selection_sort(arr,n_squadre);
+	array_ordinato(arr, n_squadre);
+}
+
+// IMPLEMENTAZIONE FUNZIONI:
+
+// per non far capitar le stesse partite in ogni giornata:
+void mescola_squadre(Squadra arr[], int n) {
+
+	for (int i = n - 1; i > 0; --i) {
+		int j = rand() % (i + 1);
+		
+		Squadra a = arr[i];
+		
+		arr[i] = arr[j];
+		arr[j] = a;
+	}
+}
+
+// per ordinare l'array dei punti
+void selection_sort(Squadra arr[],int dim){
+    
+    for (int j = 0; j < dim - 1; j++) {
+        int min = j;
+        for (int i = j + 1; i < dim; i++) {
+            if (arr[i].punti < arr[min].punti) {
+                min = i;
+            }
+        }
+        if (min != j) {
+            Squadra cambio = arr[j];
+            arr[j] = arr[min];
+            arr[min] = cambio;
+        }
     }
 }
 
-int main() {
-    Squadra arr[6];
-
-    // Inserimento dei nomi delle squadre
-    for (int i = 0; i < 6; i++) {
-        cout << "Inserisci il nome della " << i + 1 << "° Squadra: ";
-        cin >> arr[i].nome;
+// per stampare la classifica finale
+void array_ordinato(Squadra arr[], int dim) {
+    cout<<"----CLASSIFICA ORDINATA----"<<endl;
+    for(int i=0; i<dim; i++) {
+        cout<<"Squadra: "<<arr[i].nome 
+            <<" | Punti: "<<arr[i].punti 
+            <<" | GF: " <<arr[i].GF 
+            <<" | GS: "<<arr[i].GS<<endl<<endl;
     }
+}
 
-    // Inizializza l'array degli indici delle squadre
-    int squadreIndice[6] = {0, 1, 2, 3, 4, 5};
+// se in input si mette un numero negativo o 0 o 1 al numero di squadre:
+void gestione_sqadre(int dim){
+    if(dim<=1){
+        cout<<"Errore: non si può fare una partita con "<<dim<<" squadre";
+        exit(0);
+    }
+}
 
-    // Imposta il generatore di numeri casuali
-    srand(time(0));  // Inizializza il seme per il generatore di numeri casuali
+// se in input si inserisce un numero pari a 0 o negativo al numero di giornate:
+void gestione_giornate(int dim){
+    if(dim<=0){
+        cout<<"Errore: non si può fare una partita con "<<dim<<" giornate";
+        exit(0);
+    }
+}
 
-    // Girone di 5 giornate
-    for (int j = 1; j <= 5; j++) { // 5 giornate, non 6
-        cout << "GIORNATA " << j << ":";
-
-        // Mescola le squadre per questa giornata
-        mescolaSquadre(squadreIndice, 6);
-
-        // Ogni partita si gioca tra le squadre randomizzate
-        for (int y = 0; y < 6; y += 2) {
-            int gol1, gol2;
-
-            // Mostra le squadre in campo
-            cout << arr[squadreIndice[y]].nome << " vs " << arr[squadreIndice[y + 1]].nome << endl;
-
-            cout<<
+// se in input si mette un numero negativo al numero di gol:
+void gestione_gol(int dim){
+    if(dim<0){
+        cout<<"Errore: Una squadra non può avere "<<dim<<" Gol";
+        exit(0);
+    }
 }
