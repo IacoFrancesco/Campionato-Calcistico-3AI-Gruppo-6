@@ -18,11 +18,8 @@ void selection_sort(Squadra arr[],int dim);
 
 void array_ordinato(Squadra arr[],int dim);
 
-void gestione_sqadre(int dim);
+void verifica_input(int dim, string tipo);
 
-void gestione_giornate(int dim);
-
-void gestione_gol(int dim);
 
 int main() {
 	int n_squadre;
@@ -31,12 +28,12 @@ int main() {
 	cout<<"inserisci numero squadre: ";
 	cin>>n_squadre;
 	
-	gestione_sqadre(n_squadre);
+	verifica_input(n_squadre, "squadre");
 	
 	cout<<"inserisci il numero delle giornate: ";
 	cin>>n_giornate;
 	
-	gestione_giornate(n_giornate);
+	verifica_input(n_giornate,"giornate");
 	
 	cout<<endl;
 	
@@ -67,12 +64,12 @@ int main() {
 			cout<<"Gol della squadra "<<arr[y].nome<<": ";
 			cin>>gol1;
 			
-			gestione_gol(gol1);
+			verifica_input(gol1,"gol");
 			
 			cout<<"Gol della squadra "<<arr[y+1].nome<<": ";
 			cin>>gol2;
 			
-			gestione_gol(gol2);
+			verifica_input(gol2, "gol");
 			
 			cout<<endl;
 			
@@ -138,30 +135,40 @@ void array_ordinato(Squadra arr[], int dim) {
         cout<<"Squadra: "<<arr[i].nome 
             <<" | Punti: "<<arr[i].punti 
             <<" | GF: " <<arr[i].GF 
-            <<" | GS: "<<arr[i].GS<<endl<<endl;
+            <<" | GS: "<<arr[i].GS
+            <<" | DR: "<<arr[i].GF-arr[i].GS<<endl<<endl;
+            
     }
 }
 
-// se in input si mette un numero negativo o 0 o 1 al numero di squadre:
-void gestione_sqadre(int dim){
-    if(dim<=1){
-        cout<<"Errore: non si può fare una partita con "<<dim<<" squadre";
-        exit(0);
+// fuonzione universale per i bug
+void verifica_input(int dim, string tipo) {
+    if (tipo == "squadre") {
+        if (dim <= 1 || dim % 2 != 0) {
+            cout << "Errore: non si può fare una partita con " << dim << " squadre." << endl;
+            exit(0);
+        }
+    } 
+    else if (tipo == "giornate") {
+        
+        int partiteTotali = (dim * (dim - 1)) / 2; 
+        if (dim <= 0) {
+            cout << "Errore: non si può fare una partita con " << dim << " giornate." << endl;
+            exit(0); 
+        } 
+        else if (dim < partiteTotali) {
+            cout << "Errore: non ci sono abbastanza giornate per giocare tutte le partite. " << partiteTotali << "" << endl;
+            exit(0); 
+        }
+    } 
+    else if (tipo == "gol") {
+        if (dim < 0) {
+            cout << "Errore: Una squadra non può avere " << dim << " Gol." << endl;
+            exit(0); 
+        }
     }
 }
 
-// se in input si inserisce un numero pari a 0 o negativo al numero di giornate:
-void gestione_giornate(int dim){
-    if(dim<=0){
-        cout<<"Errore: non si può fare una partita con "<<dim<<" giornate";
-        exit(0);
-    }
-}
 
-// se in input si mette un numero negativo al numero di gol:
-void gestione_gol(int dim){
-    if(dim<0){
-        cout<<"Errore: Una squadra non può avere "<<dim<<" Gol";
-        exit(0);
-    }
-}
+
+
