@@ -53,9 +53,7 @@ int main() {
 	int a = sizeof(arr) / sizeof(arr[0]);
 
 	srand(time(0));
-	
-	mescola_squadre(arr, n_squadre);
-
+		
 	for (int j = 1; j <= n_giornate; j++) {
 	    mescola_squadre(arr, n_squadre);
 	    
