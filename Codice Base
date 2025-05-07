@@ -20,6 +20,11 @@ void array_ordinato(Squadra arr[],int dim);
 
 void verifica_input(int dim, string tipo);
 
+void differenza_reti(Squadra arr[], int dim);
+
+void input(Squadra arr[], int n_squadre);
+
+/*---------------------------------------------------------------------------------------------------*/
 
 int main() {
 	int n_squadre;
@@ -57,43 +62,15 @@ int main() {
 	    cout<<endl;
 	    
 		cout << "GIORNATA " << j << ": "<<endl<<endl;
-		for (int y = 0; y < n_squadre; y += 2) {
-			int gol1, gol2;
-			cout << arr[y].nome << " vs " << arr[y+1].nome << endl;
-			
-			cout<<"Gol della squadra "<<arr[y].nome<<": ";
-			cin>>gol1;
-			
-			verifica_input(gol1,"gol");
-			
-			cout<<"Gol della squadra "<<arr[y+1].nome<<": ";
-			cin>>gol2;
-			
-			verifica_input(gol2, "gol");
-			
-			cout<<endl;
-			
-			arr[y].GF+=gol1;
-            arr[y].GS+=gol2;
-            arr[y+1].GF+=gol2;
-            arr[y+1].GS+=gol1;
-			
-			if(gol1>gol2){
-			    arr[y].punti+=3;
-			}
-			else if(gol1<gol2){
-                arr[y+1].punti+=3;
-			}
-			else{
-			    arr[y].punti+=1;
-			    arr[y+1].punti+=1;
-			}
-		}
+		input(arr, n_squadre);
 	}
 	
-	selection_sort(arr,n_squadre);
-	array_ordinato(arr, n_squadre);
+	selection_sort(arr, n_squadre);  // Prima ordino per punti (decrescente)
+    differenza_reti(arr, n_squadre); // Poi sistemo quelli con stessi punti usando la differenza reti
+    array_ordinato(arr, n_squadre);  // Infine stampo la classifica ordinata
 }
+
+/*-------------------------------------------------------------------------------------------------------------*/
 
 // IMPLEMENTAZIONE FUNZIONI:
 
@@ -110,23 +87,27 @@ void mescola_squadre(Squadra arr[], int n) {
 	}
 }
 
-// per ordinare l'array dei punti
-void selection_sort(Squadra arr[],int dim){
-    
+
+
+// per ordinare l'array dei punti in ordine descrescente
+void selection_sort(Squadra arr[], int dim){
     for (int j = 0; j < dim - 1; j++) {
-        int min = j;
+        int max = j;
         for (int i = j + 1; i < dim; i++) {
-            if (arr[i].punti < arr[min].punti) {
-                min = i;
+            if (arr[i].punti > arr[max].punti) {  
+                max = i;
             }
         }
-        if (min != j) {
+        if (max != j) {
             Squadra cambio = arr[j];
-            arr[j] = arr[min];
-            arr[min] = cambio;
+            arr[j] = arr[max];
+            arr[max] = cambio;
         }
     }
 }
+
+
+
 
 // per stampare la classifica finale
 void array_ordinato(Squadra arr[], int dim) {
@@ -141,6 +122,8 @@ void array_ordinato(Squadra arr[], int dim) {
     }
 }
 
+
+
 // fuonzione universale per i bug
 void verifica_input(int dim, string tipo) {
     if (tipo == "squadre") {
@@ -151,15 +134,12 @@ void verifica_input(int dim, string tipo) {
     } 
     else if (tipo == "giornate") {
         
-        int partiteTotali = (dim * (dim - 1)) / 2; 
+         
         if (dim <= 0) {
             cout << "Errore: non si può fare una partita con " << dim << " giornate." << endl;
             exit(0); 
         } 
-        else if (dim < partiteTotali) {
-            cout << "Errore: non ci sono abbastanza giornate per giocare tutte le partite. " << partiteTotali << "" << endl;
-            exit(0); 
-        }
+        
     } 
     else if (tipo == "gol") {
         if (dim < 0) {
@@ -171,4 +151,55 @@ void verifica_input(int dim, string tipo) {
 
 
 
+// per gestire la differeza reti nella classifica 
+void differenza_reti(Squadra arr[], int dim){
+    for(int i=0; i<dim-1; i++){
+        if(arr[i].punti == arr[i+1].punti){
+            int diff_1= arr[i].GF - arr[i].GS;
+            int diff_2= arr[i+1].GF - arr[i+1].GS;
+            
+            if(diff_2 > diff_1){
+                Squadra cambio= arr[i];
+                arr[i]=arr[i+1];
+                arr[i+1]=cambio;
+            }
+        }
+    }
+}
 
+
+
+void input(Squadra arr[], int n_squadre){
+    for (int y = 0; y < n_squadre; y += 2) {
+			int gol1, gol2;
+			cout << arr[y].nome << " vs " << arr[y+1].nome << endl;
+			
+			cout<<"Gol della squadra "<<arr[y].nome<<": ";
+			cin>>gol1;
+			
+			verifica_input(gol1,"gol");
+			
+			cout<<"Gol della squadra "<<arr[y+1].nome<<": ";
+			cin>>gol2;
+			
+			verifica_input(gol2, "gol");
+			
+			cout<<endl;
+			
+			arr[y].GF+=gol1;
+                        arr[y].GS+=gol2;
+                        arr[y+1].GF+=gol2;
+                        arr[y+1].GS+=gol1;
+			
+			if(gol1>gol2){
+			    arr[y].punti+=3;
+			}
+			else if(gol1<gol2){
+                             arr[y+1].punti+=3;
+			}
+			else{
+			    arr[y].punti+=1;
+			    arr[y+1].punti+=1;
+			}
+		}
+}
