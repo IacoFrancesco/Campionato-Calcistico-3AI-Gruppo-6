@@ -1,5 +1,6 @@
 // Progetto n.6 Campionato Calcistico Iacoangeli, Howladar, Orti.
 #include <iostream>
+#include <fstream>  // per salvare e caricare i file
 #include <cstdlib>  // Per rand() e srand()
 #include <ctime>    // Per time()
 using namespace std;
@@ -9,6 +10,7 @@ struct Squadra {
 	int punti = 0;
 	int GF = 0; // Gol fatti
 	int GS = 0; // Gol subiti
+    int DR = 0;
 };
 
 // dichiarazioni funzioni:
@@ -65,7 +67,46 @@ int main() {
 	
 	selection_sort(arr, n_squadre);  // Prima ordino per punti (decrescente)
     differenza_reti(arr, n_squadre); // Poi sistemo quelli con stessi punti usando la differenza reti
-    array_ordinato(arr, n_squadre);  // Infine stampo la classifica ordinata
+
+//**************************************************************{SALVATAGGIO DATI}********************************************************************* */
+    std::ofstream outFile("dati.txt");                          
+    if (outFile.is_open()) {
+        for (int i = 0; i < n_squadre; i++) {
+            outFile << arr[i].nome << endl;
+            outFile << arr[i].punti << endl;                    
+            outFile << arr[i].GF << endl;
+            outFile << arr[i].GS << endl;
+            outFile << arr[i].GF - arr[i].GS << endl << endl;
+        }
+        outFile.close();
+        cout << "Dati salvati." << endl;
+    } else {
+    cout << "Errore apertura file per scrittura." << endl;
+    }
+
+//***************************************************************{CARICAMENTO DATI}******************************************************************** */    
+    std::ifstream inFile("dati.txt");
+    if(inFile.is_open()) {
+        for(int i = 0; i < n_squadre; i++){
+            inFile >> arr[i].nome;
+            inFile >> arr[i].punti;
+            inFile >> arr[i].GF;
+            inFile >> arr[i].GS;
+        }
+        inFile.close();
+        cout<<"----CLASSIFICA ORDINATA----"<<endl;
+        for(int i=0; i<n_squadre; i++) {
+            cout<<"Squadra: "<<arr[i].nome                      
+            <<" | Punti: "<<arr[i].punti 
+            <<" | GF: " <<arr[i].GF 
+            <<" | GS: "<<arr[i].GS
+            <<" | DR: "<<arr[i].GF-arr[i].GS<<endl<<endl;
+        }
+    } else {
+    cout << "Errore apertura file per lettura." << endl;
+    }
+//********************************************************************************************************************************** */
+    
 }
 
 /*-------------------------------------------------------------------------------------------------------------*/
@@ -105,20 +146,6 @@ void selection_sort(Squadra arr[], int dim){
 }
 
 
-
-
-// per stampare la classifica finale
-void array_ordinato(Squadra arr[], int dim) {
-    cout<<"----CLASSIFICA ORDINATA----"<<endl;
-    for(int i=0; i<dim; i++) {
-        cout<<"Squadra: "<<arr[i].nome 
-            <<" | Punti: "<<arr[i].punti 
-            <<" | GF: " <<arr[i].GF 
-            <<" | GS: "<<arr[i].GS
-            <<" | DR: "<<arr[i].GF-arr[i].GS<<endl<<endl;
-            
-    }
-}
 
 
 
@@ -199,5 +226,5 @@ void input(Squadra arr[], int n_squadre){
 			    arr[y].punti+=1;
 			    arr[y+1].punti+=1;
 			}
-		}
+	}
 }
