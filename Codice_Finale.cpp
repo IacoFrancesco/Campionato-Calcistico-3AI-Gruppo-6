@@ -26,7 +26,7 @@ void differenza_reti(Squadra arr[], int dim);
 
 void input(Squadra arr[], int n_squadre);
 
-void array_ordinato(Squadra arr[], int dim);
+void carica_classifica(Squadra arr[], int dim);
 /*---------------------------------------------------------------------------------------------------*/
 
 int main() {
@@ -70,13 +70,15 @@ int main() {
     differenza_reti(arr, n_squadre); // Poi sistemo quelli con stessi punti usando la differenza reti
 
 //**************************************************************{SALVATAGGIO DATI}********************************************************************* */
-    array_ordinato(arr, n_squadre);
+    carica_classifica(arr, n_squadre);
 
 
-/*-------------------------------------------------------------------------------------------------------------*/
-
-// IMPLEMENTAZIONE FUNZIONI:
 }
+
+
+               // IMPLEMENTAZIONE FUNZIONI:
+
+
 // per non far capitar le stesse partite in ogni giornata:
 void mescola_squadre(Squadra arr[], int n) {
 
@@ -194,8 +196,9 @@ void input(Squadra arr[], int n_squadre){
 }
 
 // per stampare la classifica finale
-void array_ordinato(Squadra arr[], int dim){
+void carica_classifica(Squadra arr[], int dim){
 	std::ofstream outFile("dati.txt");
+	outFile<<"\n      ----CLASSIFICA FINALE----\n\n";
 	if (outFile.is_open()) {
         for(int i=0; i<dim; i++) {
         outFile<<"Squadra: "<<arr[i].nome 
@@ -211,4 +214,4 @@ void array_ordinato(Squadra arr[], int dim){
      else {
     cout << "Errore apertura file per scrittura." << endl;
     }
-}\1
+}
