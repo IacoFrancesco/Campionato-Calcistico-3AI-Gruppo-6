@@ -26,6 +26,7 @@ void differenza_reti(Squadra arr[], int dim);
 
 void input(Squadra arr[], int n_squadre);
 
+void array_ordinato(Squadra arr[], int dim);
 /*---------------------------------------------------------------------------------------------------*/
 
 int main() {
@@ -69,50 +70,13 @@ int main() {
     differenza_reti(arr, n_squadre); // Poi sistemo quelli con stessi punti usando la differenza reti
 
 //**************************************************************{SALVATAGGIO DATI}********************************************************************* */
-    std::ofstream outFile("dati.txt");                          
-    if (outFile.is_open()) {
-        for (int i = 0; i < n_squadre; i++) {
-            outFile << arr[i].nome << endl;
-            outFile << arr[i].punti << endl;                    
-            outFile << arr[i].GF << endl;
-            outFile << arr[i].GS << endl;
-            outFile << arr[i].GF - arr[i].GS << endl << endl;
-        }
-        outFile.close();
-        cout << "Dati salvati." << endl;
-    } else {
-    cout << "Errore apertura file per scrittura." << endl;
-    }
+    array_ordinato(arr, n_squadre);
 
-//***************************************************************{CARICAMENTO DATI}******************************************************************** */    
-    std::ifstream inFile("dati.txt");
-    if(inFile.is_open()) {
-        for(int i = 0; i < n_squadre; i++){
-            inFile >> arr[i].nome;
-            inFile >> arr[i].punti;
-            inFile >> arr[i].GF;
-            inFile >> arr[i].GS;
-        }
-        inFile.close();
-        cout<<"----CLASSIFICA ORDINATA----"<<endl;
-        for(int i=0; i<n_squadre; i++) {
-            cout<<"Squadra: "<<arr[i].nome                      
-            <<" | Punti: "<<arr[i].punti 
-            <<" | GF: " <<arr[i].GF 
-            <<" | GS: "<<arr[i].GS
-            <<" | DR: "<<arr[i].GF-arr[i].GS<<endl<<endl;
-        }
-    } else {
-    cout << "Errore apertura file per lettura." << endl;
-    }
-//********************************************************************************************************************************** */
-    
-}
 
 /*-------------------------------------------------------------------------------------------------------------*/
 
 // IMPLEMENTAZIONE FUNZIONI:
-
+}
 // per non far capitar le stesse partite in ogni giornata:
 void mescola_squadre(Squadra arr[], int n) {
 
@@ -228,3 +192,23 @@ void input(Squadra arr[], int n_squadre){
 			}
 	}
 }
+
+// per stampare la classifica finale
+void array_ordinato(Squadra arr[], int dim){
+	std::ofstream outFile("dati.txt");
+	if (outFile.is_open()) {
+        for(int i=0; i<dim; i++) {
+        outFile<<"Squadra: "<<arr[i].nome 
+            <<" | Punti: "<<arr[i].punti 
+            <<" | GF: " <<arr[i].GF 
+            <<" | GS: "<<arr[i].GS
+            <<" | DR: "<<arr[i].GF-arr[i].GS<<endl<<endl;
+        }
+    
+        outFile.close();
+       cout << "Dati salvati." << endl;
+   }
+     else {
+    cout << "Errore apertura file per scrittura." << endl;
+    }
+}\1
