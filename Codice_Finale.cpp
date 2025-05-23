@@ -53,7 +53,6 @@ int main() {
 			cin >> arr[i].nome;
 	}
 
-	int a = sizeof(arr) / sizeof(arr[0]);
 
 	srand(time(0));
 		
