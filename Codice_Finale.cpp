@@ -10,7 +10,6 @@ struct Squadra {
 	int punti = 0;
 	int GF = 0; // Gol fatti
 	int GS = 0; // Gol subiti
-    int DR = 0;
 };
 
 // dichiarazioni funzioni:
