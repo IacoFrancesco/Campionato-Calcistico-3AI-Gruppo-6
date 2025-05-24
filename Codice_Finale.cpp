@@ -17,8 +17,6 @@ void mescola_squadre(Squadra arr[], int n);
 
 void selection_sort(Squadra arr[],int dim);
 
-void array_ordinato(Squadra arr[],int dim);
-
 void verifica_input(int dim, string tipo);
 
 void differenza_reti(Squadra arr[], int dim);
